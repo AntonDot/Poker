@@ -24,6 +24,9 @@ public class Layout
         this.cards = cards;
     }
 
+    public Combination Combination => combination;
+    public List<Card> Cards => cards;
+
     public static Layout GetHighestLayout(List<Card> cards)
     {
         if (CombinationsEvaluator.IsStraightFlush(cards, out var straightFlushCards))
@@ -55,6 +58,6 @@ public class Layout
 
     public override string ToString()
     {
-        return $"{combination}: {string.Join(", ", cards.Select(c => c.Rank + " of " + c.Suit))}";
+        return $"{combination}: {string.Join(", ", cards.Select(card => card.ToString()))}";
     }
 }
