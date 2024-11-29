@@ -1,9 +1,22 @@
 ﻿namespace PokerGame.Game;
 
+/// <summary>
+/// A class that represents an evaluator of poker combinations.
+/// </summary>
 public static class CombinationsEvaluator
 {
+    /// <summary>
+    /// Checks if <paramref name="cards"/> can made up straight flush layout.
+    /// </summary>
+    /// <param name="cards">Input cards</param>
+    /// <param name="resultCards">Resulting cards</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Card"/> that mades up straight flush layout or <c>null</c></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static bool IsStraightFlush(Card[] cards, out List<Card>? resultCards)
     {
+        if (cards == null || cards.Length == 0)
+            throw new ArgumentNullException(nameof(cards));
+
         var oneSuitGroups = cards.GroupBy(c => c.Suit).Where(g => g.Count() >= 5);
         var suitableGroups = new List<List<Card>>();
         var found = false;
@@ -26,8 +39,18 @@ public static class CombinationsEvaluator
         return false;
     }
 
+    /// <summary>
+    /// Checks if <paramref name="cards"/> can made up quads layout.
+    /// </summary>
+    /// <param name="cards">Input cards</param>
+    /// <param name="resultCards">Resulting cards</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Card"/> that mades up quads layout or <c>null</c></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static bool IsQuads(Card[] cards, out List<Card>? resultCards)
     {
+        if (cards == null || cards.Length == 0)
+            throw new ArgumentNullException(nameof(cards));
+
         var quadGroups = cards
             .GroupBy(c => c.Rank)
             .Where(g => g.Count() == 4)
@@ -52,8 +75,18 @@ public static class CombinationsEvaluator
         return false;
     }
 
+    /// <summary>
+    /// Checks if <paramref name="cards"/> can made up full house layout.
+    /// </summary>
+    /// <param name="cards">Input cards</param>
+    /// <param name="resultCards">Resulting cards</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Card"/> that mades up full house layout or <c>null</c></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static bool IsFullHouse(Card[] cards, out List<Card>? resultCards)
     {
+        if (cards == null || cards.Length == 0)
+            throw new ArgumentNullException(nameof(cards));
+
         var groups = cards.GroupBy(c => c.Rank);
         var triplets = groups.Where(g => g.Count() == 3);
         var pairs = groups.Where(g => g.Count() == 2);
@@ -96,8 +129,18 @@ public static class CombinationsEvaluator
         return false;
     }
 
+    /// <summary>
+    /// Checks if <paramref name="cards"/> can made up flush layout.
+    /// </summary>
+    /// <param name="cards">Input cards</param>
+    /// <param name="resultCards">Resulting cards</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Card"/> that mades up flush layout or <c>null</c></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static bool IsFlush(Card[] cards, out List<Card>? resultCards)
     {
+        if (cards == null || cards.Length == 0)
+            throw new ArgumentNullException(nameof(cards));
+
         var groups = cards.GroupBy(c => c.Suit);
         var suitableGroups = new List<List<Card>>();
         var found = false;
@@ -122,8 +165,19 @@ public static class CombinationsEvaluator
         return false;
     }
 
+
+    /// <summary>
+    /// Checks if <paramref name="cards"/> can made up straight layout.
+    /// </summary>
+    /// <param name="cards">Input cards</param>
+    /// <param name="resultCards">Resulting cards</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Card"/> that mades up straight layout or <c>null</c></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static bool IsStraight(Card[] cards, out List<Card>? resultCards)
     {
+        if (cards == null || cards.Length == 0)
+            throw new ArgumentNullException(nameof(cards));
+
         var sortedRanks = cards
             .OrderByDescending(card => card.Rank)
             .Select(c => c.Rank)
@@ -143,7 +197,7 @@ public static class CombinationsEvaluator
             }
         }
 
-        // spesical case for "A 2 3 4 5"
+        // special case for "A 2 3 4 5"
         if (sortedRanks.Contains(Rank.Ace)
             && sortedRanks.Contains(Rank.Two)
             && sortedRanks.Contains(Rank.Three)
@@ -160,8 +214,18 @@ public static class CombinationsEvaluator
         return false;
     }
 
+    /// <summary>
+    /// Checks if <paramref name="cards"/> can made up set layout.
+    /// </summary>
+    /// <param name="cards">Input cards</param>
+    /// <param name="resultCards">Resulting cards</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Card"/> that mades up set layout or <c>null</c></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static bool IsSet(Card[] cards, out List<Card>? resultCards)
     {
+        if (cards == null || cards.Length == 0)
+            throw new ArgumentNullException(nameof(cards));
+
         var triplets = cards.GroupBy(c => c.Rank).Where(g => g.Count() == 3);
         
         if (triplets.Count() == 1)
@@ -181,8 +245,18 @@ public static class CombinationsEvaluator
         return false;
     }
 
+    /// <summary>
+    /// Checks if <paramref name="cards"/> can made up two pairs layout.
+    /// </summary>
+    /// <param name="cards">Input cards</param>
+    /// <param name="resultCards">Resulting cards</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Card"/> that mades up two pairs layout or <c>null</c></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static bool IsTwoPairs(Card[] cards, out List<Card>? resultCards)
     {
+        if (cards == null || cards.Length == 0)
+            throw new ArgumentNullException(nameof(cards));
+
         var pairs = cards.GroupBy(c => c.Rank).Where(g => g.Count() == 2).ToArray();
         if (pairs.Length >= 2)
         {
@@ -198,8 +272,18 @@ public static class CombinationsEvaluator
         return false;
     }
 
+    /// <summary>
+    /// Checks if <paramref name="cards"/> can made up one pair layout.
+    /// </summary>
+    /// <param name="cards">Input cards</param>
+    /// <param name="resultCards">Resulting cards</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Card"/> that mades up one pair layout or <c>null</c></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     public static bool IsOnePair(Card[] cards, out List<Card>? resultCards)
     {
+        if (cards == null || cards.Length == 0)
+            throw new ArgumentNullException(nameof(cards));
+
         var pairs = cards.GroupBy(c => c.Rank).Where(g => g.Count() == 2).ToArray();
         if (pairs.Length == 1)
         {

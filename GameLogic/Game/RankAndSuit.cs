@@ -1,5 +1,8 @@
 ﻿namespace PokerGame.Game;
 
+/// <summary>
+/// Represents a suit of the card.
+/// </summary>
 public enum Suit
 {
     Hearts,
@@ -8,6 +11,9 @@ public enum Suit
     Diamonds
 }
 
+/// <summary>
+/// Represents a rank of the card.
+/// </summary>
 public enum Rank
 {
     Two,

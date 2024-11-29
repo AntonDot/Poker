@@ -1,8 +1,18 @@
 ﻿namespace PokerGame.Game;
 
+/// <summary>
+/// A class that represents a card.
+/// </summary>
 public class Card
 {
+    /// <summary>
+    /// Rank of the card.
+    /// </summary>
     public Rank Rank { get; }
+
+    /// <summary>
+    /// Suit of the card.
+    /// </summary>
     public Suit Suit { get; }
 
     public Card(Rank rank, Suit suit)

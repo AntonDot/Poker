@@ -1,6 +1,9 @@
 ﻿namespace PokerGame.Game;
 
-public enum MoveState
+/// <summary>
+/// Represents a move that was made.
+/// </summary>
+public enum Move
 {
     Fold,
     Check,

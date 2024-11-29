@@ -1,5 +1,8 @@
 ﻿namespace PokerGame.Game;
 
+/// <summary>
+/// A class that represents a poker game.
+/// </summary>
 public class Game
 {
     private LinkedList<Player> players;

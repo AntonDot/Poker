@@ -1,5 +1,8 @@
 ﻿namespace PokerGame.Game;
 
+/// <summary>
+/// Represents a poker combination of the cards.
+/// </summary>
 public enum Combination
 {
     HighCard,
@@ -13,6 +16,9 @@ public enum Combination
     StraightFlush
 }
 
+/// <summary>
+/// A class that represents a layout of cards.
+/// </summary>
 public class Layout
 {
     private Combination combination;
@@ -24,9 +30,21 @@ public class Layout
         this.cards = cards;
     }
 
+    /// <summary>
+    /// Combination of this layout.
+    /// </summary>
     public Combination Combination => combination;
+
+    /// <summary>
+    /// All cards of this layout.
+    /// </summary>
     public List<Card> Cards => cards;
 
+    /// <summary>
+    /// Evaluates the highest possible layout that can be made up of <paramref name="cards"/>.
+    /// </summary>
+    /// <param name="cards">Cards to be evaluated.</param>
+    /// <returns>The highest possible <see cref="Layout"/>.</returns>
     public static Layout GetHighestLayout(Card[] cards)
     {
         if (CombinationsEvaluator.IsStraightFlush(cards, out var straightFlushCards))
