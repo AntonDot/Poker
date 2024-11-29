@@ -2,15 +2,14 @@
 
 public static class CombinationsEvaluator
 {
-    public static bool IsStraightFlush(List<Card> cards, out List<Card> resultCards)
+    public static bool IsStraightFlush(Card[] cards, out List<Card>? resultCards)
     {
-        resultCards = cards;
         var oneSuitGroups = cards.GroupBy(c => c.Suit).Where(g => g.Count() >= 5);
         var suitableGroups = new List<List<Card>>();
         var found = false;
         foreach (var group in oneSuitGroups)
         {
-            if (IsStraight(cards, out var straightCards))
+            if (IsStraight(cards, out var straightCards) && straightCards != null)
             {
                 suitableGroups.Add(straightCards);
                 found = true;
@@ -22,13 +21,13 @@ public static class CombinationsEvaluator
             resultCards = suitableGroups.OrderByDescending(group => group[0].Rank).First();
             return true;
         }
+
+        resultCards = null;
         return false;
     }
 
-    public static bool IsQuads(List<Card> cards, out List<Card> resultCards)
+    public static bool IsQuads(Card[] cards, out List<Card>? resultCards)
     {
-        resultCards = new List<Card>();
-
         var quadGroups = cards
             .GroupBy(c => c.Rank)
             .Where(g => g.Count() == 4)
@@ -36,6 +35,7 @@ public static class CombinationsEvaluator
 
         if (quadGroups.Count != 0)
         {
+            resultCards = new List<Card>();
             var strongestQuad = quadGroups.OrderByDescending(g => g.Key).First();
             resultCards.AddRange(strongestQuad);
 
@@ -48,12 +48,12 @@ public static class CombinationsEvaluator
 
             return true;
         }
+        resultCards = null;
         return false;
     }
 
-    public static bool IsFullHouse(List<Card> cards, out List<Card> resultCards)
+    public static bool IsFullHouse(Card[] cards, out List<Card>? resultCards)
     {
-        resultCards = new List<Card>();
         var groups = cards.GroupBy(c => c.Rank);
         var triplets = groups.Where(g => g.Count() == 3);
         var pairs = groups.Where(g => g.Count() == 2);
@@ -79,6 +79,7 @@ public static class CombinationsEvaluator
 
         if (triplets.Count() == 2)
         {
+            resultCards = new List<Card>();
             var strongestTriplet = triplets.OrderByDescending(c => c.Key).First();
             resultCards.AddRange(strongestTriplet);
 
@@ -91,12 +92,12 @@ public static class CombinationsEvaluator
             resultCards = resultCards.OrderByDescending(c => c.Rank).ToList();
             return true;
         }
+        resultCards = null;
         return false;
     }
 
-    public static bool IsFlush(List<Card> cards, out List<Card> resultCards)
+    public static bool IsFlush(Card[] cards, out List<Card>? resultCards)
     {
-        resultCards = cards;
         var groups = cards.GroupBy(c => c.Suit);
         var suitableGroups = new List<List<Card>>();
         var found = false;
@@ -117,12 +118,12 @@ public static class CombinationsEvaluator
             resultCards = suitableGroups.OrderBy(group => group[0].Rank).First();
             return true;
         }
+        resultCards = null;
         return false;
     }
 
-    public static bool IsStraight(List<Card> cards, out List<Card> resultCards)
+    public static bool IsStraight(Card[] cards, out List<Card>? resultCards)
     {
-        resultCards = cards;
         var sortedRanks = cards
             .OrderByDescending(card => card.Rank)
             .Select(c => c.Rank)
@@ -155,16 +156,17 @@ public static class CombinationsEvaluator
                 .ToList();
             return true;
         }
+        resultCards = null;
         return false;
     }
 
-    public static bool IsSet(List<Card> cards, out List<Card> resultCards)
+    public static bool IsSet(Card[] cards, out List<Card>? resultCards)
     {
-        resultCards = new List<Card>();
         var triplets = cards.GroupBy(c => c.Rank).Where(g => g.Count() == 3);
         
         if (triplets.Count() == 1)
         {
+            resultCards = new List<Card>();
             resultCards.AddRange(triplets.First());
 
             var remainingCards = cards
@@ -175,12 +177,12 @@ public static class CombinationsEvaluator
             resultCards = resultCards.OrderByDescending(c => c.Rank).ToList();
             return true;
         }
+        resultCards = null;
         return false;
     }
 
-    public static bool IsTwoPairs(List<Card> cards, out List<Card> resultCards)
+    public static bool IsTwoPairs(Card[] cards, out List<Card>? resultCards)
     {
-        resultCards = cards;
         var pairs = cards.GroupBy(c => c.Rank).Where(g => g.Count() == 2).ToArray();
         if (pairs.Length >= 2)
         {
@@ -192,15 +194,16 @@ public static class CombinationsEvaluator
                 .ToList();
             return true;
         }
+        resultCards = null;
         return false;
     }
 
-    public static bool IsOnePair(List<Card> cards, out List<Card> resultCards)
+    public static bool IsOnePair(Card[] cards, out List<Card>? resultCards)
     {
-        resultCards = new List<Card>();
         var pairs = cards.GroupBy(c => c.Rank).Where(g => g.Count() == 2).ToArray();
         if (pairs.Length == 1)
         {
+            resultCards = new List<Card>();
             resultCards.AddRange(pairs[0]);
             var remainingCards = cards
                 .Except(pairs[0])
@@ -210,6 +213,7 @@ public static class CombinationsEvaluator
             resultCards = resultCards.OrderByDescending(c => c.Rank).ToList();
             return true;
         }
+        resultCards = null;
         return false;
     }
 }

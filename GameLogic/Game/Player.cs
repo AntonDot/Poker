@@ -23,6 +23,12 @@ public class Player
         await Task.Delay(1000);
     }
 
+    public Layout GetLayout(Card[] tableCards)
+    {
+        var allCards = cards.Concat(tableCards).ToArray();
+        return Layout.GetHighestLayout(allCards);
+    }
+
     public void AddCard(Card card)
     {
         cards.Add(card);

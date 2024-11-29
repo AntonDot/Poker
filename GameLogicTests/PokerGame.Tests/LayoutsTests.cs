@@ -95,10 +95,10 @@ public class PokerLogicTests
     public void LayoutTests(Combination expectedComb, string[] expectedCards, string[] cards)
     {
         // checks correct higher layout recognition
-        var parsedCards = cards.Select(card => ParseCard(card)).ToList();
+        var parsedCards = cards.Select(card => ParseCard(card)).ToArray();
         var parsedExpectedCards = expectedCards
             .Select(card => ParseCard(card))
-            .ToList();
+            .ToArray();
 
         var answer = Layout.GetHighestLayout(parsedCards);
         Assert.That(answer.Combination, Is.EqualTo(expectedComb), "Combinations are not the same.");
